@@ -6,6 +6,6 @@
 
     <!-- each order has a collection of order items that is split apart to be processed -->
     <int:channel id="orders"/>
-    <int:splitter input-channel="orders" expression="payload.items" output-channel="drinks"/>
+    <int:splitter input-channel="orders" expression="payload.items" output-channel="splitOrders"/>
     <int:channel id="splitOrders"/>
 </beans>
