@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:int="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:int-http="http://www.springframework.org/schema/integration/http"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/stream
+		http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
+
+    <int-http:inbound-channel-adapter id="http-input"
+                                      supported-methods="POST"
+                                      request-payload-type="java.lang.String"
+                                      path="/orders"/>
+
+    <int:json-to-object-transformer type="org.springframework.integration.samples.cafe.Order" input-channel="http-input" output-channel="orders"/>
+
+</beans:beans>

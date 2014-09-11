@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/integration
+			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/amqp
+			http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+			http://www.springframework.org/schema/rabbit
+			http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <int-amqp:inbound-gateway
+            id="waiter"
+            request-channel="jsonPreparedDrinks"
+            mapped-request-headers="correlationId,sequenceSize"
+            queue-names="prepared-drinks"
+            connection-factory="rabbitConnectionFactory" />
+
+    <int:json-to-object-transformer input-channel="jsonPreparedDrinks" output-channel="deliveries" type="org.springframework.integration.samples.cafe.Drink"/>
+
+    <!-- rabbit exchanges, queues, and bindings used by this app -->
+    <rabbit:topic-exchange name="cafe-orders" auto-delete="false" durable="true">
+        <rabbit:bindings>
+            <rabbit:binding queue="prepared-drinks" pattern="drinks"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <rabbit:queue name="prepared-drinks" auto-delete="false" durable="true"/>
+
+
+</beans>
