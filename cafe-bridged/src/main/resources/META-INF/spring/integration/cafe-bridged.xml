@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <import resource="classpath:META-INF/spring/integration/cafe-http.xml"/>
+
+    <int:bridge input-channel="convertedOrders" output-channel="orders"/>
+
+    <import resource="classpath:META-INF/spring/integration/cafe-orderProcessing.xml"/>
+
+    <int:bridge input-channel="splitOrders" output-channel="drinks"/>
+
+    <import resource="classpath:META-INF/spring/integration/cafe-drinkPreparation.xml"/>
+
+    <int:bridge input-channel="preparedDrinks" output-channel="deliveries"/>
+
+    <import resource="classpath:META-INF/spring/integration/cafe-deliveryAggregation.xml"/>
+
+    <int:bridge input-channel="completeDeliveries" output-channel="output"/>
+
+    <import resource="classpath:META-INF/spring/integration/cafe-output.xml"/>
+</beans>
