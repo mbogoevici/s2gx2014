@@ -1,0 +1,3 @@
+rootProject.name = 'cafe-springxd'
+
+include 'cafe-orders','cafe-drinks','cafe-delivery'

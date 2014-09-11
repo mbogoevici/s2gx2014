@@ -1,0 +1,3 @@
+rootProject.name = 'cafe-distributed'
+
+include 'cafe-orders','cafe-drinks','cafe-delivery'
